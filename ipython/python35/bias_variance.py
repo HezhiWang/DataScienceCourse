@@ -27,7 +27,7 @@ def fitLinReg(d, mn, mx, inter):
 
     regr = linear_model.LinearRegression(fit_intercept = inter)
     regr.fit(d.drop('y', 1), d['y'])
-    yhat = regr.predict(pd.DataFrame(np.arange(mn, mx, 1)))
+    yhat = regr.predict(pd.DataFrame(np.arange(mn, mx, 1)))  #生成从mx-mn个预测值
 
     return yhat
 
@@ -35,7 +35,7 @@ def makePolyFeat(d, deg):
     '''
     Goal: Generate features up to X**deg
     1. a data frame with two features X and Y
-    4. a degree 'deg' (from which we make polynomial features 
+    2. a degree 'deg' (from which we make polynomial features 
     
     '''
     #Generate Polynomial terms
@@ -70,7 +70,7 @@ def plotLinearBiasStage(sigma, betas, ns, fs):
     x = np.arange(mn, mx, 1)
     y_real = np.zeros(len(x))
     for i, b in enumerate(betas):
-        y_real += b*(x**i)
+        y_real += b*(x**i)   # without noise
 
     #plt.plot(x, y_real + 2*sigma, 'k+')
     #plt.plot(x, y_real - 2*sigma, 'k--')
@@ -201,6 +201,7 @@ def plotVarianceTrend(res_dict, fs):
     plt.ylabel('Var( E_d[Y|X = 50] )')
 
     ax2 = fig.add_subplot(2, 1, 2)
+    # subplot(nrows, ncols, plot_number)
     filt = (x > 0)
     plt.plot(x[filt], 2*np.log2(res_dict['lin']), 'b-', label = 'd = 1')
     plt.plot(x[filt], 2*np.log2(res_dict['quad']), 'r-', label = 'd = 2')
